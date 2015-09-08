@@ -1,0 +1,23 @@
+How is the auditing done. 
+
+
+1. Identify an area which I want to audit?
+
+2. Take the sample.osm
+
+3. Find the values regarding to the area chosen in Step 1.
+
+4. Take a look at the values. See if there are some non conforming values . If they exist then 
+
+5. Make a process to make these non conforming values conforming. Just create a function that will detect the non conforming values and will return a 
+   conforming value. 
+   
+6. Repeat step 1-5 for atleast 3 areas.
+
+7. Now run the complete osm file and detect the non conforming values : convert them to correct values using your function : write to json file. 
+
+8. Upload the json data to mongoDB
+
+9. Run some analytic queries on the mongoDB. 
+
+10. Publish the results in a html file and Submit to Udacity. 
