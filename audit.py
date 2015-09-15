@@ -17,7 +17,7 @@ from collections import defaultdict
 import re
 import pprint
 
-OSMFILE = "..\mumbai_india.osm"
+OSMFILE = "..\sample.osm"
 street_type_re = re.compile(r'\b\S+\.?$', re.IGNORECASE)
 
 
@@ -34,13 +34,14 @@ mapping = { "St": "Street",
              "Rd"  : "Road",
              "Road": "Road",
              "Rd." : "Road",
-             "stn" : "Station"
+             "stn" : "Station",
+             "galli" : "Gali"
             }
 
 
 def audit_street_type(street_types, street_name):
     m = street_type_re.search(street_name)
-    if m:
+    if m: 
         street_type = m.group()
         if street_type not in expected:
             street_types[street_type].add(street_name)
@@ -75,13 +76,14 @@ def update_name(name, mapping):
             
             
 
-    return name
+    return name.title()
+    
 
 
 def test():
     st_types = audit(OSMFILE)
  #   assert len(st_types) == 3
-    pprint.pprint(dict(st_types))
+    #pprint.pprint(dict(st_types))
 
     for st_type, ways in st_types.iteritems():
         for name in ways:
