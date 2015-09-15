@@ -19,6 +19,7 @@ import pprint
 
 OSMFILE = "..\sample.osm"
 street_type_re = re.compile(r'\b\S+\.?$', re.IGNORECASE)
+parenthesis_re = re.compile(r'\([^)]*\)',re.IGNORECASE)
 
 
 expected = ["Street", "Avenue", "Boulevard", "Drive", "Court", "Place", "Square", "Lane", "Road", 
@@ -73,10 +74,12 @@ def update_name(name, mapping):
         if m.group() in mapping.keys():
             name = re.sub(street_type_re, mapping[m.group()], name)
 
-            
+    m = parenthesis_re.search(name)        
+    if m:
+        name = re.sub(parenthesis_re, '', name)
             
 
-    return name.title()
+    return name.title().strip()
     
 
 
