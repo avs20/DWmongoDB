@@ -13,3 +13,8 @@ Areas to Audit
  "Rd." : "Road"
  "stn" : "Station"
 }
+
+# remove the data inside () 
+
+2. Pincodes / Zip codes 
+
