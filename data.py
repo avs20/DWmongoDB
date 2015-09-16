@@ -13,6 +13,7 @@ import re
 import codecs
 import json
 import os
+import audit
 """
 Your task is to wrangle the data and transform the shape of the data
 into the model we mentioned earlier. The output should be a list of dictionaries
@@ -96,7 +97,8 @@ should be turned into
 
 lower = re.compile(r'^([a-z]|_)*$')
 lower_colon = re.compile(r'^([a-z]|_)*:([a-z]|_)*$')
-problemchars = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
+#editing the problemchars so that some things are not removed
+problemchars = re.compile(r'[=\+/<>;"\?%#$@\r\n]')
 
 CREATED = [ "version", "changeset", "timestamp", "user", "uid"]
 
@@ -129,19 +131,27 @@ def shape_element(element):
         for tags in element:
             #print tags.attrib
             #print tags.tag
+            
+            
             attrib = tags.attrib
             if tags.tag == 'nd':
                 nodes.append(attrib['ref'])
             elif tags.tag == 'tag':
                 #if problematic then ignore 
-                if attrib['k'].startswith('addr:'):
-                    if len( attrib['k'].split(':')) == 2 :
-                        addr[attrib['k'].split(':')[1]] = attrib['v']
+                key = attrib['k']
+                if key.startswith('addr:'):
+                    if len( key.split(':')) == 2 :
+                        if(key == 'addr:street') :
+                            #print attrib['v'],"==>", audit.update_name(attrib['v'], audit.mapping)
+                            addr[key.split(':')[1]] = audit.update_name(attrib['v'], audit.mapping)
+                        if((key == 'addr:postcode') or (key =='addr:zipcode') ) :
+                            addr[key.split(':')[1]] = audit.update_zipcode(attrib['v'])
                 elif problemchars.search(attrib['v']):
-                    #print attrib['v']
+                    #print ">>>",attrib['v']
                     continue                
                 else :
-                    node[attrib['k']] = attrib['v']
+                    
+                        node[attrib['k']] = attrib['v']
     
         if element.tag == 'way' and len(nodes) > 0:
             node['node_refs'] = nodes
@@ -173,33 +183,41 @@ def shape_element(element):
 #        node['address'] = addr
 #        node['created'] = created
 #        print node
+        element.clear()
         return node
+        
     else:
         return None
 
 
 def process_map(file_in, pretty = False):
     # You do not need to change this file
+    audit.audit(file_in)
     file_out = "{0}.json".format(file_in)
     data = []
-    with codecs.open(file_out, "wb") as fo:
+    with open(file_out, "wb") as fo:
         
         for _, element in ET.iterparse(file_in):
             el = shape_element(element)
             if el:
-                data.append(el)
+                #data.append(el)
                 if pretty:
-                    fo.write(json.dumps(el, indent=2)+"\n")
+                    fo.write(json.dump(el, indent=2)+"\n")
                 else:
-                    fo.write(json.dumps(el) + "\n")
-                            
+                    fo.write(json.dumps(el) +"\n")
+                   
+            
+            fo.flush()                
+            
+    
     return data
 
 def test():
     # NOTE: if you are running this code on your computer, with a larger dataset, 
     # call the process_map procedure with pretty=False. The pretty=True option adds 
     # additional spaces to the output, making it significantly larger.
-    data = process_map('..\mumbai_india.osm',False)
+    #data = process_map('..\sample.osm',False)
+    process_map('..\mumbai_india.osm',False)
     #pprint.pprint(data)
     
 #    correct_first_elem = {
