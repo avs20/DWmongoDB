@@ -30,8 +30,9 @@ if __name__ == "__main__":
     client = MongoClient("mongodb://localhost:27017")
     
     db = client.maps
-    #top_contributing_users(db)
+    top_contributing_users(db)
     single_entry_users(db)
 
+    client.close()
 
 

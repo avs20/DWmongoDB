@@ -18,3 +18,9 @@ Areas to Audit
 
 2. Pincodes / Zip codes 
 
+
+
+
+#insert json into db command 
+
+mongoimport --db maps --collecition mumbai --file mumbai_india.json
