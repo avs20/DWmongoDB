@@ -68,12 +68,36 @@ def top_areas_of_worship(db):
     
 def find_editing_month_year(db):
     pipeline = [
-            { "$group" : { "_id" : "$created.year" , "count" : {"$sum":1}}},
-            {"$sort" : {"count" : -1} }   
-    
+            { "$group" : { "_id" : 
+                    {"year" : "$created.year" ,
+                     "month" :"$created.month"
+                    },                     
+                     "editCount" : {"$sum":1}}
+            },
+            { "$group" : { "_id" : "$_id.year",
+                            "month" : {
+                                    "$push" : {
+                                            "month" : "$_id.month",
+                                            "edits" : "$editCount"
+                                        },
+                                    },
+                            "count": {"$sum": "$editCount"}
+                          }},
+            {"$sort" : {"count" : -1} },
+            {"$limit" : 1            }       
         ]
     pprint( list(db.mumbai.aggregate(pipeline)))
+    
 
+def find_most_active_month(db):
+    pipeline = [
+            {"$group" :{ "_id" : "$created.month" , "count" : {"$sum" :1}}},
+            {"$sort" : {"count" : -1}},
+            {"$limit":2}    
+        ]
+    pprint( list(db.mumbai.aggregate(pipeline)))
+    
+    
 if __name__ == "__main__":
 
     from pymongo import MongoClient    
@@ -86,7 +110,8 @@ if __name__ == "__main__":
     #find_none_religion(db)
     #find_top_10_amenities(db)
     #top_areas_of_worship(db)
-    find_editing_month_year(db)
+    #find_editing_month_year(db)
+    find_most_active_month(db)
 
     client.close()
 

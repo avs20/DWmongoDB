@@ -1,4 +1,4 @@
-Project 3 : Data Wrangling with MongoDB
+<!-- Project 3 : Data Wrangling with MongoDB -->
 ===========================
 Ashutosh Singh
 --------------
@@ -23,7 +23,7 @@ Ashutosh Singh
 ###Map Area: Mumbai, Maharashtra, India
 
 
-####<a name="hnm">1. History and Motivation</a>
+####<a name="hnm"/>1. History and Motivation
 
 I chose the Mumbai area as I am residing here for the past 2 years and wanted to explore more in this area. Also I wanted to look at the data quality as not many of colleagues have heard of Open Street Maps and not many people here are so much educated that we can update the maps and improve the data quality (My personal perception before starting this project).
 
@@ -163,3 +163,59 @@ First take a look at the top 10 amenities
  {u'_id': u'college', u'count': 96}]
 
 Well, it looks like we have more places of worship than we have schools and hospitals. There may be a bias here that schools are marked by the local users whereas we know of places of worship which are far away. So many users know of religious places than they know of schools and hospitals.
+
+
+#### Most editing year
+
+Looking at the time when most of the editing is done
+
+```
+ pipeline = [
+            { "$group" : { "_id" :
+                    {"year" : "$created.year" ,
+                     "month" :"$created.month"
+                    },
+                     "editCount" : {"$sum":1}}
+            },
+            { "$group" : { "_id" : "$_id.year",
+                            "month" : {
+                                    "$push" : {
+                                            "month" : "$_id.month",
+                                            "edits" : "$editCount"
+                                        },
+                                    },
+                            "count": {"$sum": "$editCount"}
+                          }},
+            {"$sort" : {"count" : -1} },
+            {"$limit" : 1 }
+
+ pprint( list(db.mumbai.aggregate(pipeline)))
+
+```
+
+>[{u'_id': u'2015',<br>
+  u'count': 1359350,<br>
+  u'month': [{u'edits': 5701, u'month': u'05'},<br>
+             {u'edits': 2174, u'month': u'02'},<br>
+             {u'edits': 371148, u'month': u'07'},<br>
+             {u'edits': 3131, u'month': u'01'},<br>
+             {u'edits': 4169, u'month': u'03'},<br>
+             {u'edits': 3516, u'month': u'04'},<br>
+             {u'edits': 969511, u'month': u'06'}]}]
+
+2015 is the year when most of the editing is done. This may be because now users in India are getting more tech savvy and updating the data.
+
+For a final query lets find the month in which most of the editing is done
+
+```
+ pipeline = [
+            {"$group" :{ "_id" : "$created.month" , "count" : {"$sum" :1}}},
+            {"$sort" : {"count" : -1}},
+            {"$limit":2}
+        ]
+ pprint( list(db.mumbai.aggregate(pipeline)))
+```
+>[{u'_id': u'06', u'count': 978172}, <br>
+{u'_id': u'07', u'count': 406501}]
+
+It's odd but the most active month for editing is **June** and **July**
