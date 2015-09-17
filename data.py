@@ -112,6 +112,14 @@ def shape_element(element):
         pos = []
         node['type'] = element.tag
         for keys in element.attrib:
+            if keys == 'timestamp':
+                timestamp = element.attrib[keys]
+                year = timestamp[:4]
+                month = timestamp[5:7]
+                created['year'] = year
+                created['month'] = month
+            
+            
             if keys in CREATED:
                 created[keys] = element.attrib[keys]
             elif keys == 'lat':
@@ -193,7 +201,7 @@ def shape_element(element):
 def process_map(file_in, pretty = False):
     # You do not need to change this file
     audit.audit(file_in)
-    file_out = "{0}.json".format(file_in)
+    file_out = "1_{0}.json".format(file_in)
     data = []
     with open(file_out, "wb") as fo:
         

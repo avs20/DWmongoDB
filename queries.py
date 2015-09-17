@@ -56,6 +56,23 @@ def find_top_10_amenities(db):
         ]
         
     pprint( list(db.mumbai.aggregate(pipeline)))
+    
+def top_areas_of_worship(db):
+    pipeline = [
+            {"$match" : {"amenity" : {"$exists":1}, "postalcode" :{"$exists":1}}},
+            {"$group" : { "_id" : "$postalcode", "count" :{"$sum":1}}},
+            {"$sort" : {"count" : -1}}
+        ]
+        
+    pprint( list(db.mumbai.aggregate(pipeline)))
+    
+def find_editing_month_year(db):
+    pipeline = [
+            { "$group" : { "_id" : "$created.year" , "count" : {"$sum":1}}},
+            {"$sort" : {"count" : -1} }   
+    
+        ]
+    pprint( list(db.mumbai.aggregate(pipeline)))
 
 if __name__ == "__main__":
 
@@ -67,7 +84,9 @@ if __name__ == "__main__":
     #single_entry_users(db)
     #biggest_religion(db)
     #find_none_religion(db)
-    find_top_10_amenities(db)
+    #find_top_10_amenities(db)
+    #top_areas_of_worship(db)
+    find_editing_month_year(db)
 
     client.close()
 
