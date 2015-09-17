@@ -8,9 +8,9 @@ Created on Tue Jul 21 18:27:26 2015
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import xml.etree.cElementTree as ET
-import pprint
+
 import re
-import codecs
+
 import json
 import os
 import audit
@@ -201,7 +201,7 @@ def shape_element(element):
 def process_map(file_in, pretty = False):
     # You do not need to change this file
     audit.audit(file_in)
-    file_out = "1_{0}.json".format(file_in)
+    file_out = "{0}.json".format(file_in)
     data = []
     with open(file_out, "wb") as fo:
         
@@ -224,8 +224,8 @@ def test():
     # NOTE: if you are running this code on your computer, with a larger dataset, 
     # call the process_map procedure with pretty=False. The pretty=True option adds 
     # additional spaces to the output, making it significantly larger.
-    #data = process_map('..\sample.osm',False)
-    process_map('..\mumbai_india.osm',False)
+    data = process_map('..\sample.osm',False)
+    #process_map('..\mumbai_india.osm',False)
     #pprint.pprint(data)
     
 #    correct_first_elem = {

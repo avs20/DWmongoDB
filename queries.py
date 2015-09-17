@@ -5,8 +5,13 @@ Created on Wed Sep 16 17:35:32 2015
 @author: ashutoshsingh
 """
 
+"""
+This file contains the addition section queries from the project report
+"""
+
 from pprint import pprint
 
+#find top contributing users
 def top_contributing_users(db):
     pipeline = [
             {"$group": { "_id": "$created.user" , "count": {"$sum": 1}}},
@@ -16,6 +21,7 @@ def top_contributing_users(db):
         
     print list(db.mumbai.aggregate(pipeline))
 
+#total number of users who have made edit only once
 def single_entry_users(db):
     pipeline = [
             {"$group" : { "_id": "$created.user", "count": { "$sum": 1}}},
@@ -27,7 +33,6 @@ def single_entry_users(db):
     print list(db.mumbai.aggregate(pipeline))
 
 #biggest religion by finding amenities 
-
 def biggest_religion(db):
     pipeline = [
             {"$match" : {"amenity" : {"$exists" : 1}, "amenity" : "place_of_worship"}},
@@ -37,7 +42,7 @@ def biggest_religion(db):
         
     pprint( list(db.mumbai.aggregate(pipeline)))
     
-#what is None religion
+#what is the name of the places of worship where religion is not mentioned
 def find_none_religion(db):
     pipeline = [
             {"$match" : { "amenity" : {"$exists" : 1 } , "amenity" : "place_of_worship"  ,"religion":None}},
@@ -47,6 +52,7 @@ def find_none_religion(db):
         
     pprint( list(db.mumbai.aggregate(pipeline)))
     
+#the top 10 types of amenities
 def find_top_10_amenities(db):
     pipeline = [
             {"$match" : {"amenity" : {"$exists":1}}},
@@ -57,15 +63,7 @@ def find_top_10_amenities(db):
         
     pprint( list(db.mumbai.aggregate(pipeline)))
     
-def top_areas_of_worship(db):
-    pipeline = [
-            {"$match" : {"amenity" : {"$exists":1}, "postalcode" :{"$exists":1}}},
-            {"$group" : { "_id" : "$postalcode", "count" :{"$sum":1}}},
-            {"$sort" : {"count" : -1}}
-        ]
-        
-    pprint( list(db.mumbai.aggregate(pipeline)))
-    
+#aggregate the number of edits first by year and then by month    
 def find_editing_month_year(db):
     pipeline = [
             { "$group" : { "_id" : 
@@ -88,7 +86,7 @@ def find_editing_month_year(db):
         ]
     pprint( list(db.mumbai.aggregate(pipeline)))
     
-
+#month in which most edits happened
 def find_most_active_month(db):
     pipeline = [
             {"$group" :{ "_id" : "$created.month" , "count" : {"$sum" :1}}},
@@ -97,6 +95,15 @@ def find_most_active_month(db):
         ]
     pprint( list(db.mumbai.aggregate(pipeline)))
     
+#total number of buildings	
+def find_buildings(db):
+    pipeline = [
+        {"$match" : {"building" : {"$exists" : 1}, "name" : {"$exists" :1}}},
+        {"$group": {"_id" : "$building" , "count" :{"$sum" :1} }}  
+    
+    ]    
+    
+    pprint( list(db.mumbai.aggregate(pipeline)))
     
 if __name__ == "__main__":
 
@@ -104,14 +111,15 @@ if __name__ == "__main__":
     client = MongoClient("mongodb://localhost:27017")
     
     db = client.maps
-    #top_contributing_users(db)
-    #single_entry_users(db)
-    #biggest_religion(db)
-    #find_none_religion(db)
-    #find_top_10_amenities(db)
-    #top_areas_of_worship(db)
-    #find_editing_month_year(db)
+    top_contributing_users(db)
+    single_entry_users(db)
+    biggest_religion(db)
+    find_none_religion(db)
+    find_top_10_amenities(db)
+    top_areas_of_worship(db)
+    find_editing_month_year(db)
     find_most_active_month(db)
+    find_buildings(db)
 
     client.close()
 

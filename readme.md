@@ -3,8 +3,8 @@ Project 3 : Data Wrangling with MongoDB
 Ashutosh Singh
 --------------
 
-###Map Area: Mumbai, Maharashtra, India
-
+####Map Area: Mumbai, Maharashtra, India
+[OSM File from mapzen.com](https://s3.amazonaws.com/metro-extracts.mapzen.com/mumbai_india.osm.bz2)
 
 ####<a name="hnm"/>1. Introduction and Motivation
 
@@ -103,9 +103,9 @@ db.mumbai.find({"building" : "yes"}).length
 ```
 >157595
 
-###<a name="additional"/>4. Additional Analysis
+####<a name="additional"/>4. Additional Analysis
 
-#### Places of Worship / Religion
+#####Places of Worship / Religion
 India is a mixture of religions,languages and cultures. Lets take a look at the places of worship in the city as sorted order.
 
 ```python
@@ -150,7 +150,7 @@ In the top 5 items we have 1 church, 3 temples and a dargah(muslim place of wors
 So it looks like the entries for these are incomplete and can be done by editing each place manually
 
 
-#### Top 10 Amenities
+##### Top 10 Amenities
 
 First take a look at the top 10 amenities
 ```
@@ -177,7 +177,7 @@ First take a look at the top 10 amenities
 Well, it looks like we have more places of worship than we have schools and hospitals. There may be a bias here that schools are marked by the local users whereas we know of places of worship which are far away. So many users know of religious places than they know of schools and hospitals.
 
 
-#### Most editing year
+##### Most editing year
 
 Looking at the time when most of the editing is done
 
@@ -230,7 +230,17 @@ For a final query lets find the month in which most of the editing is done
 >[{u'_id': u'06', u'count': 978172}, <br>
 {u'_id': u'07', u'count': 406501}]
 
-It's odd but the most active month for editing is **June** and **July**
+It's odd but the most active month for editing are **June** and **July**
 
 
-###<a name="conclusion"/>5. Conclusion
+####<a name="conclusion"/>5. Conclusion
+India is a land of a vast array languages and communities.The data also conforms to it. There are various names of streets and buildings. The data is also filled with the how the names/zipcodes are used in daily life instead of a common standard. If proper checks are implemented then some the data entered can be adhered to the standard but again in this type of data (maps) localization is important. We need more active volunteers to clean and maintain the data just like in wikipedia. I think the data will improve over time as people get more used to Open Street Maps.
+
+
+####<a name="references"/>6. References
+* [OSM XML wiki](http://wiki.openstreetmap.org/wiki/OSM_XML)<br>
+* [Mapzen Metro Extracts](https://mapzen.com/data/metro-extracts)
+* [Python Regex](https://developers.google.com/edu/python/regular-expressions?hl=en)
+* [Elementree IterParse](http://effbot.org/zone/element-iterparse.htm)
+* [mongoDB Aggregation](https://docs.mongodb.org/manual/aggregation/)
+* [mongoDB Operators](http://docs.mongodb.org/manual/reference/operator/)
