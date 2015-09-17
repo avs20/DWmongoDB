@@ -7,7 +7,7 @@ Ashutosh Singh
 - [Project 3 : Data Wrangling with MongoDB](#)
 	- [Ashutosh Singh](#)
 		- [Map Area: Mumbai, Maharashtra, India](#)
-			- [1. History and Motivation](#)
+			- [1. History and Motivation](#hnm)
 			- [3. Overview of the Data](#)
 				- [File Sizes](#)
 				- [Number of documents :](#)
@@ -15,7 +15,7 @@ Ashutosh Singh
 				- [Number of ways :](#)
 				- [Top Contributing user](#)
 				- [Users with single edit](#)
-		- [Additional Analysis](#)
+		- [Additional Analysis](#additional)
 			- [Places of Worship / Religion](#)
 			- [Top 10 Amenities](#)
 
@@ -23,7 +23,7 @@ Ashutosh Singh
 ###Map Area: Mumbai, Maharashtra, India
 
 
-####1. History and Motivation
+####<a name="hnm">1. History and Motivation</a>
 
 I chose the Mumbai area as I am residing here for the past 2 years and wanted to explore more in this area. Also I wanted to look at the data quality as not many of colleagues have heard of Open Street Maps and not many people here are so much educated that we can update the maps and improve the data quality (My personal perception before starting this project).
 
@@ -91,7 +91,7 @@ db.mumbai.aggrefate([
 
 >[{u'num_users': 205, u'_id': 1}]
 
-###Additional Analysis
+###<a name="additional"/>Additional Analysis
 
 #### Places of Worship / Religion
 India is a mixture of religions,languages and cultures. Lets take a look at the places of worship in the city as sorted order.
