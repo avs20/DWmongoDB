@@ -1,47 +1,53 @@
-<!-- Project 3 : Data Wrangling with MongoDB -->
+Project 3 : Data Wrangling with MongoDB
 ===========================
 Ashutosh Singh
 --------------
-**Table of Contents**
-
-- [Project 3 : Data Wrangling with MongoDB](#)
-	- [Ashutosh Singh](#)
-		- [Map Area: Mumbai, Maharashtra, India](#)
-			- [1. History and Motivation](#hnm)
-			- [3. Overview of the Data](#)
-				- [File Sizes](#)
-				- [Number of documents :](#)
-				- [Number of nodes :](#)
-				- [Number of ways :](#)
-				- [Top Contributing user](#)
-				- [Users with single edit](#)
-		- [Additional Analysis](#additional)
-			- [Places of Worship / Religion](#)
-			- [Top 10 Amenities](#)
-
 
 ###Map Area: Mumbai, Maharashtra, India
 
 
-####<a name="hnm"/>1. History and Motivation
+####<a name="hnm"/>1. Introduction and Motivation
 
-I chose the Mumbai area as I am residing here for the past 2 years and wanted to explore more in this area. Also I wanted to look at the data quality as not many of colleagues have heard of Open Street Maps and not many people here are so much educated that we can update the maps and improve the data quality (My personal perception before starting this project).
+I chose the Mumbai area as I am residing here for the past 3 years and wanted to explore the city. Also I wanted to look at the data quality as not many of colleagues have heard of Open Street Maps and not many people here are educated that we can update the maps and improve the data quality (My personal perception before starting this project).
 
-Also Mumbai is not a planned city. So the basic analysis of street names as shown in the course will not work out of the box here.  Here we have many names of street and the street names do not only have “road” or other predefined structure in them. Let’s take a look at the data.
+The Structure of the code is as follows.
+
+[audit.py]() | This contains the auditing functions of finding the inconsistent or incorrect data and updating it according to norms.
+
+[data.py]() | It is used to parse the __OSM__ file and use the **audit.py** to correct the data found and then write the data to a json file.
+
+The data from json file is imported to mongoDB.
+
+[queries.py]() | The queries from the **Additional Section** is written in this file.
+
+####<a name="peimaps"/>2. Problems Encountered in the maps
+
+#####Street Names
+Mumbai is not a planned city. Also due to diversity of cultures in the city the names of places are not consistent as in most first world cities. Sometimes the names are in English, but in many instances the street name is in hindi and is just transliterated in English. Following problems are visible from a glance at data
+
+* Various names in the end of street eg. __*marg,road,Rd),path,wadi, gali, chawl, chowk*__
+* Multiple names of same street within parenthesis eg. __*Maratha mandir marg (Club road)*__
+* Non string data eg __*4620;,http://mha.gov.in*__
+
+First the problem characters were checked and if found the string is removed to be added to clean data.
+Then everything inside parenthesis is removed to remove duplicate street names. Then the abbrebiated names were replaced with the full names and minor incorrect spelled names were also corrected. Finally all the names were changed to Title Case.
 
 
-Lets take a look at different type of street names in Mumbai. The pipe line is this
-```
-pipeline = [
-{ "$match" : {"address.street" : { "$exists" : 1}}},
-{ "$project" : {"name" : "$address.street" ,"_id" : 0}},
-]
-```
 
-The output is as follows
+#####Postal Codes
+In India, we have 6 digit postal codes. In each local area the first few digits remain constant and the last 2/3 digits change in that area. For Mumbai the pattern is **400XXX** hence only the last 3 digits will change. When going through the sample data following problems occured.
+* Whitespaces in postal code eg.  __*400 099*__
+* Postal codes not starting with 400 eg. __*402075*, *55035*__
+* Postal codes not having six digits eg. __*66, 49*__
+
+The identification of these were done first by using a regular expression and then replacing them by either correcting by adding extra digits to them / removing whitespaces or removing them from the data.
 
 
-####3. Overview of the Data
+
+
+
+
+####<a name="overview"/>3. Overview of the Data
 This section contains the basic statistics about the dataset and the queries used to fetch them
 
 
@@ -64,9 +70,9 @@ This section contains the basic statistics about the dataset and the queries use
 `db.mumbai.find({type:{“way”}).count()`
 >205554
 
-Number of unique users
->db.mumbai.distinct(“created.user”).length
-1086
+#####Number of unique users
+`db.mumbai.distinct(“created.user”).length`
+>1086
 
 #####Top Contributing user
 ```
@@ -91,7 +97,13 @@ db.mumbai.aggrefate([
 
 >[{u'num_users': 205, u'_id': 1}]
 
-###<a name="additional"/>Additional Analysis
+#####Total number of buildings
+```
+db.mumbai.find({"building" : "yes"}).length
+```
+>157595
+
+###<a name="additional"/>4. Additional Analysis
 
 #### Places of Worship / Religion
 India is a mixture of religions,languages and cultures. Lets take a look at the places of worship in the city as sorted order.
@@ -219,3 +231,6 @@ For a final query lets find the month in which most of the editing is done
 {u'_id': u'07', u'count': 406501}]
 
 It's odd but the most active month for editing is **June** and **July**
+
+
+###<a name="conclusion"/>5. Conclusion
