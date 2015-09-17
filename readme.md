@@ -8,11 +8,11 @@ Ashutosh Singh
 
 ####<a name="hnm"/>1. Introduction and Motivation
 
-I chose the Mumbai area as I am residing here for the past 3 years and wanted to explore the city. Also I wanted to look at the data quality as not many of colleagues have heard of Open Street Maps and not many people here are educated that we can update the maps and improve the data quality (My personal perception before starting this project).
+I chose the Mumbai area as I am residing here for the past 3 years and wanted to explore the city. Also I wanted to look at the data quality as not many of my colleagues have heard of Open Street Maps and not many people here are educated that we can update the maps and improve the data quality (My personal perception before starting this project).
 
 The Structure of the code is as follows.
 
-[audit.py]() | This contains the auditing functions of finding the inconsistent or incorrect data and updating it according to norms.
+[audit.py]() | This contains the auditing functions like finding the inconsistent or incorrect data and updating it according to norms.
 
 [data.py]() | It is used to parse the __OSM__ file and use the **audit.py** to correct the data found and then write the data to a json file.
 
@@ -29,8 +29,8 @@ Mumbai is not a planned city. Also due to diversity of cultures in the city the 
 * Multiple names of same street within parenthesis eg. __*Maratha mandir marg (Club road)*__
 * Non string data eg __*4620;,http://mha.gov.in*__
 
-First the problem characters were checked and if found the string is removed to be added to clean data.
-Then everything inside parenthesis is removed to remove duplicate street names. Then the abbrebiated names were replaced with the full names and minor incorrect spelled names were also corrected. Finally all the names were changed to Title Case.
+First the problem characters were checked and if found the string is removed from being added as clean data.
+Then everything inside parenthesis is removed to remove duplicate street names. Then the abbreviated names were replaced with the full names and minor incorrect spelled names were also corrected. Finally all the names were changed to Title Case.
 
 
 
@@ -40,11 +40,7 @@ In India, we have 6 digit postal codes. In each local area the first few digits 
 * Postal codes not starting with 400 eg. __*402075*, *55035*__
 * Postal codes not having six digits eg. __*66, 49*__
 
-The identification of these were done first by using a regular expression and then replacing them by either correcting by adding extra digits to them / removing whitespaces or removing them from the data.
-
-
-
-
+The identification of these were done first by using a regular expression and then replacing them by either correcting or adding extra digits to them / removing whitespaces or removing them from the data.
 
 
 ####<a name="overview"/>3. Overview of the Data
@@ -106,7 +102,7 @@ db.mumbai.find({"building" : "yes"}).length
 ####<a name="additional"/>4. Additional Analysis
 
 #####Places of Worship / Religion
-India is a mixture of religions,languages and cultures. Lets take a look at the places of worship in the city as sorted order.
+India is a land of religions,languages and cultures. Lets take a look at the places of worship in the city as sorted order.
 
 ```python
  pipeline = [
@@ -130,7 +126,7 @@ India is a mixture of religions,languages and cultures. Lets take a look at the 
  {u'_id': u'hare_krishna', u'count': 1},<br>
  {u'_id': u'sikhs', u'count': 1}]<br>
 
-As found, there are 7 religious places found. The most pupular religion is hindu and then muslim also represented in the india's demographic data. Now few places of worship don't have a religion field in them. Printing them we get
+As found, there are 7 religions place of worship found. The most pupular religion is hindu and then muslim also represented in the india's demographic data. Now few places of worship don't have a religion field in them. Printing them we get
 ```
  pipeline = [
             {"$match" : { "amenity" : {"$exists" : 1 } , "amenity" : "place_of_worship"  ,"religion":None}},
