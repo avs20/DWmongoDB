@@ -2,6 +2,23 @@ Project 3 : Data Wrangling with MongoDB
 ===========================
 Ashutosh Singh
 --------------
+**Table of Contents**
+
+- [Project 3 : Data Wrangling with MongoDB](#)
+	- [Ashutosh Singh](#)
+		- [Map Area: Mumbai, Maharashtra, India](#)
+			- [1. History and Motivation](#)
+			- [3. Overview of the Data](#)
+				- [File Sizes](#)
+				- [Number of documents :](#)
+				- [Number of nodes :](#)
+				- [Number of ways :](#)
+				- [Top Contributing user](#)
+				- [Users with single edit](#)
+		- [Additional Analysis](#)
+			- [Places of Worship / Religion](#)
+			- [Top 10 Amenities](#)
+
 
 ###Map Area: Mumbai, Maharashtra, India
 
