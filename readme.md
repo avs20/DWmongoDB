@@ -246,11 +246,11 @@ Also in India, standardization takes a second place when put together with local
  * Incorporating more data : The users at local level should incorporate more data from the local administrative authorities to cross-validate the present data and add more info to it.
 
 
-####<a name="conclusion"/>5. Conclusion
+####<a name="conclusion"/>6. Conclusion
 India is a land of a vast array languages and communities.The data also conforms to it. There are various names of streets and buildings. The data is also filled with the how the names/zipcodes are used in daily life instead of a common standard. If proper checks are implemented then some the data entered can be adhered to the standard but again in this type of data (maps) localization is important. We need more active volunteers to clean and maintain the data just like in wikipedia. I think the data will improve over time as people get more used to Open Street Maps.
 
 
-####<a name="references"/>6. References
+####<a name="references"/>7. References
 * [OSM XML wiki](http://wiki.openstreetmap.org/wiki/OSM_XML)<br>
 * [Mapzen Metro Extracts](https://mapzen.com/data/metro-extracts)
 * [Python Regex](https://developers.google.com/edu/python/regular-expressions?hl=en)
