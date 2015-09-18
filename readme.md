@@ -55,19 +55,27 @@ This section contains the basic statistics about the dataset and the queries use
 
 
 #####Number of documents :
-
-`>1880457`
+```
+db.mumbai.find().count()
+```
+>1880457
 
 #####Number of nodes :
-`db.mumbai.find({type:”node”}).count()`
+```
+db.mumbai.find({type:”node”}).count()
+```
 >1674702
 
 #####Number of ways :
-`db.mumbai.find({type:{“way”}).count()`
+```
+db.mumbai.find({type:{“way”}).count()
+```
 >205554
 
 #####Number of unique users
-`db.mumbai.distinct(“created.user”).length`
+```
+db.mumbai.distinct(“created.user”).length
+```
 >1086
 
 #####Top Contributing user
@@ -129,7 +137,8 @@ India is a land of religions,languages and cultures. Lets take a look at the pla
 As found, there are 7 religions place of worship found. The most pupular religion is hindu and then muslim also represented in the india's demographic data. Now few places of worship don't have a religion field in them. Printing them we get
 ```
  pipeline = [
-            {"$match" : { "amenity" : {"$exists" : 1 } , "amenity" : "place_of_worship"  ,"religion":None}},
+            {"$match" : { "amenity" : {"$exists" : 1 } , "amenity" : "place_of_worship" 
+ 			             ,"religion":None}},
             {"$project" : {"_id" : 0, "name" :1}},
             {"$limit" : 5 }
         ]
