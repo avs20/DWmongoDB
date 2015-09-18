@@ -1,4 +1,4 @@
-Project 3 : Data Wrangling with MongoDB
+﻿Project 3 : Data Wrangling with MongoDB
 ===========================
 Ashutosh Singh
 --------------
@@ -236,6 +236,14 @@ For a final query lets find the month in which most of the editing is done
 {u'_id': u'07', u'count': 406501}]
 
 It's odd but the most active month for editing are **June** and **July**
+####<a name="otherideads"/>6. Other Ideas about the dataset
+The data quality in the open street maps is widely varying depending upon the regions and also how much local volunteers are interested in improving it.  Like for a big city in US or Europe there are enough people with the motivation and the skills to update an area with relevant details. But in a country like India there are few skilled volunteers to take up the task.
+Also in India, standardization takes a second place when put together with locality. Even thought the volunteers are updating a map they may put it in commonly used words than taking a standardized approach. There are 2-3 approaches to bring more volunteers and the get cleaned data. 
+ * Gamification :  The concept of rewarding people with virtual badges, points, karma is the cornerstone of many communities like foursquare, reddit, stackoverflow etc. Prominent display of user statistics on the osm website and also on the searched maps will prompt more users to contribute. 
+
+ * High Quality tools : If high quality tools are  available to the community users to easily edit and mark the maps (like Google Map Maker). Also the inbuilt quality checks can improve the quality of data to a new level. 
+
+ * Incorporating more data : The users at local level should incorporate more data from the local administrative authorities to cross-validate the present data and add more info to it.
 
 
 ####<a name="conclusion"/>5. Conclusion
